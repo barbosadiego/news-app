@@ -1,21 +1,48 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ searchActive: searchActive }">
     <nav class="nav">
       <a href="/" class="logo">
         <img src="@/assets/logo.svg" alt="News Portal logo" />
       </a>
       <div class="icons">
         <div class="search">
-          <img src="@/assets/search.svg" />
+          <img src="@/assets/search.svg" @click="handleSearch" />
         </div>
         <div class="menu">
           <img src="@/assets/menu.svg" />
         </div>
       </div>
     </nav>
+
+    <transition>
+      <SearchBar v-if="searchActive" @searchActive="handleSearch"/>
+    </transition>
+
     <router-view />
+
+    <!-- Footer -->
   </div>
 </template>
+
+<script>
+import SearchBar from '@/components/SeachModal.vue';
+
+export default {
+  components: {
+    SearchBar,
+  },
+  data() {
+    return {
+      searchActive: false,
+    };
+  },
+  methods:{
+    handleSearch(){
+      this.searchActive = !this.searchActive
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 :root {
@@ -39,19 +66,33 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
 #app {
   padding: 30px;
+  min-height: 100vh;
 
-  .nav, .icons {
+  .nav,
+  .icons {
     display: flex;
   }
 
-  .nav{
+  .nav {
     justify-content: space-between;
     align-items: center;
   }
 
-  .icons{
+  .icons {
     gap: 30px;
     cursor: pointer;
   }
