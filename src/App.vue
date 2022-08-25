@@ -21,7 +21,6 @@
         </div>
       </div>
 
-
       <transition>
         <SearchBar v-if="searchActive" @searchActive="handleSearch"/>
       </transition>
