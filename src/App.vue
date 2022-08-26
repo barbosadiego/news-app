@@ -24,7 +24,7 @@
       </transition>
 
       <router-view />
-      
+
       <!-- Footer -->
     </div>
   </div>
@@ -98,6 +98,11 @@ li {
 
 a {
   text-decoration: none;
+}
+
+img{
+  max-width: 100%;
+  display: block;
 }
 
 //search modal animation
