@@ -1,12 +1,10 @@
 <template>
   <div id="app" :class="{ searchActive: searchActive }">
-    
     <transition name="menu">
-      <MenuItens v-if="isMenuActive"/>
+      <MenuItens v-if="isMenuActive" />
     </transition>
 
-    <div class="content" :class="{'is-menu-active' : isMenuActive}">
-
+    <div class="content" :class="{ 'is-menu-active': isMenuActive }">
       <div class="header">
         <a href="/" class="logo">
           <img src="@/assets/logo.svg" alt="News Portal logo" />
@@ -22,11 +20,11 @@
       </div>
 
       <transition>
-        <SearchBar v-if="searchActive" @searchActive="handleSearch"/>
+        <SearchBar v-if="searchActive" @searchActive="handleSearch" />
       </transition>
 
       <router-view />
-
+      
       <!-- Footer -->
     </div>
   </div>
@@ -45,16 +43,29 @@ export default {
     return {
       searchActive: false,
       isMenuActive: false,
+      newsArticles: [],
+      API_KEY: 'apiKey=10a22d9d876f43d5976a12223845ad75',
+      country: 'country=br&',
+      baseURL: 'https://newsapi.org/v2/top-headlines?',
     };
   },
-  methods:{
-    handleSearch(){
+  methods: {
+    handleSearch() {
       this.searchActive = !this.searchActive;
     },
-    handleMenu(){
+    handleMenu() {
       this.isMenuActive = !this.isMenuActive;
-    }
-  }
+    },
+    async getArticles() {
+      const data = await fetch(`${this.baseURL}${this.country}${this.API_KEY}`);
+      const res = await data.json();
+      this.newsArticles = res.articles;
+      console.log(res);
+    },
+  },
+  created() {
+    // this.getArticles();
+  },
 };
 </script>
 
@@ -80,11 +91,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-ul, li{
+ul,
+li {
   list-style: none;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
@@ -118,13 +130,13 @@ a{
   z-index: 1;
   overflow: hidden;
 
-  .content{
+  .content {
     z-index: 5;
     min-height: 100vh;
     padding: 30px;
-    transition: .3s ease;
+    transition: 0.3s ease;
 
-    &.is-menu-active{
+    &.is-menu-active {
       transform: translateX(-70%);
     }
   }
@@ -143,7 +155,7 @@ a{
     gap: 10px;
     cursor: pointer;
 
-    & > div{
+    & > div {
       padding: 10px;
     }
   }
