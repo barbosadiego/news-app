@@ -90,6 +90,24 @@ export default {
     return{
       isMobile: true,
     }
+  },
+  methods:{
+    getWidth(){
+      const width = window.innerWidth;
+      width >= 1024 ? this.isMobile = false : this.isMobile = true
+      console.log('width')
+    },
+    getDebounce(func, wait){
+      let time;
+      return function(){
+        clearTimeout(time);
+        time = setTimeout(func, wait)
+      }
+    }
+  },
+  created(){
+    this.getWidth()
+    window.addEventListener('resize', this.getDebounce(this.getWidth, 500))
   }
 };
 </script>
@@ -100,7 +118,6 @@ export default {
 .home-page{
   display: flex;
   flex-direction: column;
-
 
   .hot-topics{
     margin: 40px 0px;
