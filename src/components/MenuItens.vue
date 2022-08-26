@@ -33,11 +33,15 @@ export default {
   @media screen and (min-width: 1024px) {
     left: 80%;
     width: 20%;
+    padding: 0px;
   }
 
   h1 {
     margin-bottom: 2rem;
     font-weight: 700;
+    @media screen and (min-width: 1024px) {
+      padding: 30px;
+    }
   }
 
   ul {
@@ -46,8 +50,14 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     padding: 1rem 0;
+    @media screen and (min-width: 1024px) {
+      align-items: unset;
+    }
 
     li {
+      transition: .3s;
+      border-right: 2px solid transparent;
+
       a {
         display: block;
         padding: 10px 0;
@@ -55,6 +65,23 @@ export default {
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         color: var(--white);
+        transition: .3s;
+        @media screen and (min-width: 1024px) {
+          padding-left: 30px;
+        }
+      }
+
+      @media screen and (min-width:1024px) {
+        &:hover{
+          display: block;
+          width: 100%;
+          background-color: #ffffff20;
+          border-color: var(--white);
+
+          a{
+            transform: translateX(10px);
+          }
+        }
       }
     }
   }
