@@ -21,11 +21,12 @@ export default {
 
 <style lang="scss" scoped>
 .search-bar {
-  position: absolute;
+  position: fixed;
   width: 100%;
   min-height: 100vh;
   top: 0px;
   left: 0px;
+  bottom: 0px;
   z-index: 10;
   display: flex;
   flex-direction: column;

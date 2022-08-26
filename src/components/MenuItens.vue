@@ -22,8 +22,9 @@ export default {
 <style lang="scss" scoped>
 .menu {
   background-color: var(--black-80);
-  position: absolute;
+  position: fixed;
   top: 0;
+  bottom: 0;
   left: 30%;
   width: 70%;
   height: 100vh;

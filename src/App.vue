@@ -100,7 +100,7 @@ a {
   text-decoration: none;
 }
 
-img{
+img {
   max-width: 100%;
   display: block;
 }
@@ -133,7 +133,6 @@ img{
 
 #app {
   z-index: 1;
-  overflow: hidden;
 
   .content {
     z-index: 5;
@@ -143,6 +142,15 @@ img{
 
     &.is-menu-active {
       transform: translateX(-70%);
+      overflow-y: hidden;
+      height: 100vh;
+    }
+  }
+
+  &.searchActive {
+    .content {
+      overflow-y: hidden;
+      height: 100vh;
     }
   }
 
