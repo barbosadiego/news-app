@@ -128,6 +128,7 @@ export default {
       img{
         width: 100%;
         object-fit: cover;
+        //tablet style
         @media screen and (min-width:768px) {
           height: 355px;
           border-radius: 8px;
@@ -177,6 +178,7 @@ export default {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 32px 20px;
+      //tablet style
       @media screen and (min-width:768px) {
         grid-template-columns: repeat(3, 1fr);
       }
