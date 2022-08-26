@@ -32,7 +32,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-color: rgba($color: #000000, $alpha: .9);
+  background-color: rgba($color: #000000, $alpha: .95);
 
   .close{
     color: var(--white);
