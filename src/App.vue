@@ -7,7 +7,7 @@
 
     <div class="content" :class="{'is-menu-active' : isMenuActive}">
 
-      <div class="nav">
+      <div class="header">
         <a href="/" class="logo">
           <img src="@/assets/logo.svg" alt="News Portal logo" />
         </a>
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       searchActive: false,
-      isMenuActive: true,
+      isMenuActive: false,
     };
   },
   methods:{
@@ -88,6 +88,7 @@ a{
   text-decoration: none;
 }
 
+//search modal animation
 .v-enter-active,
 .v-leave-active {
   transition: all 0.3s ease;
@@ -100,6 +101,7 @@ a{
   transform: translateY(-100px);
 }
 
+//menu animation
 .menu-enter-active,
 .menu-leave-active {
   transition: all 0.3s ease;
@@ -114,6 +116,7 @@ a{
 
 #app {
   z-index: 1;
+  overflow: hidden;
 
   .content{
     z-index: 5;
@@ -126,12 +129,12 @@ a{
     }
   }
 
-  .nav,
+  .header,
   .icons {
     display: flex;
   }
 
-  .nav {
+  .header {
     justify-content: space-between;
     align-items: center;
   }
