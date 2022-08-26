@@ -139,6 +139,11 @@ img {
     min-height: 100vh;
     padding: 30px;
     transition: 0.3s ease;
+    //desktop width
+    @media screen and (min-width: 1200px) {
+      max-width: 1170px;
+      margin: 0 auto;
+    }
 
     &.is-menu-active {
       transform: translateX(-70%);
