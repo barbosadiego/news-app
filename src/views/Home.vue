@@ -128,6 +128,10 @@ export default {
       img{
         width: 100%;
         object-fit: cover;
+        @media screen and (min-width:768px) {
+          height: 355px;
+          border-radius: 8px;
+        }
       }
 
       .text{
@@ -173,6 +177,9 @@ export default {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 32px 20px;
+      @media screen and (min-width:768px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
 
       .item{
 
@@ -194,7 +201,7 @@ export default {
           font-weight: 400;
           line-height: rem(16);
           gap: 5px;
-          margin-top: 16px;
+          margin-top: 10px;
           color: var(--black-20);
         }
       }
