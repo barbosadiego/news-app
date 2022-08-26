@@ -33,6 +33,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
   background-color: rgba($color: #000000, $alpha: .95);
+  
 
   .close{
     color: var(--white);
@@ -49,6 +50,14 @@ export default {
     padding: 15px 13px;
     border-radius: 8px;
     border: none;
+    //tablet style
+    @media screen and (min-width: 768px) {
+      width: 60%;
+    }
+    //desktop style
+    @media screen and (min-width: 1024px) {
+      width: 40%;
+    }
 
     &::placeholder{
       font-family: 'Roboto', sans-serif;

@@ -30,6 +30,10 @@ export default {
   height: 100vh;
   color: var(--white);
   padding: 30px;
+  @media screen and (min-width: 1024px) {
+    left: 80%;
+    width: 20%;
+  }
 
   h1 {
     margin-bottom: 2rem;

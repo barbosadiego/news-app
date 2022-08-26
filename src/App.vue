@@ -129,6 +129,10 @@ img {
 .menu-leave-to {
   opacity: 0;
   transform: translateX(70%);
+  //desktop
+  @media screen and (min-width:1024px) {
+    transform: translateX(20%);
+  }
 }
 
 #app {
@@ -149,6 +153,10 @@ img {
       transform: translateX(-70%);
       overflow-y: hidden;
       height: 100vh;
+      //desktop
+      @media screen and (min-width: 1024px) {
+        transform: translateX(-20%);
+      }
     }
   }
 

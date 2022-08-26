@@ -13,13 +13,15 @@
             <span class="source">CNN Indonesia</span>
           </div>
         </div>
-        <p v-if="!isMobile" class="description">
-          Nisi, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
-          adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
-          vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
-          magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque...
-          read more
-        </p>
+        <div v-if="!isMobile" class="description">
+          <p>
+            <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
+            adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
+            vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
+            magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque...
+          </p>
+          <a href="#">read more</a>
+        </div>
       </div>
     </div>
 
@@ -169,6 +171,7 @@ export default {
           grid-column: 1/4;
           height: 100%;
           overflow: hidden;
+          height: 400px;
         }
       }
 
@@ -227,6 +230,10 @@ export default {
         font-family: 'Playfair Display', 'Times New Roman', Times, serif;
         font-weight: 400;
         line-height: rem(32);
+
+        span{
+          font-size: rem(36);
+        }
       }
     }
   }
