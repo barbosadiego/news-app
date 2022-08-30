@@ -5,9 +5,7 @@
       <div class="item">
 
         <img :src="hotTopics[0].urlToImage ? hotTopics[0].urlToImage : 'https://via.placeholder.com/750'" :alt="hotTopics[0].title"/>
-
         <div class="text">
-
           <p class="title">
             {{ hotTopics[0].title }}
           </p>
@@ -15,7 +13,6 @@
             <span class="publishedAt">{{ hotTopics[0].publishedAt }}</span>
             <span class="source">{{ hotTopics[0].source.name }}</span>
           </div>
-
         </div>
 
         <div v-if="!isMobile" class="description">
