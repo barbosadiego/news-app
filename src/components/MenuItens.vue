@@ -2,13 +2,76 @@
   <nav class="menu">
     <h1>Menu</h1>
     <ul>
-      <li><a href="" class="link">business</a></li>
-      <li><a href="" class="link">entertainment</a></li>
-      <li><a href="" class="link">general</a></li>
-      <li><a href="" class="link">health</a></li>
-      <li><a href="" class="link">science</a></li>
-      <li><a href="" class="link">sports</a></li>
-      <li><a href="" class="link">technology</a></li>
+      <li>
+        <router-link 
+          to="/category/business" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          business
+        </router-link>
+      </li>
+      <li>
+        <router-link 
+          to="/category/entertaiment" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          entertainment
+        </router-link>
+      </li>
+      <li>
+        <router-link 
+          to="/category/general" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          general
+        </router-link>
+      </li>
+      <li>
+        <router-link 
+          to="/category/health" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          health
+        </router-link>
+      </li>
+      <li>
+        <router-link 
+          to="/category/science" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          science
+        </router-link>
+      </li>
+      <li>
+        <router-link 
+          to="/category/sports" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          sports
+        </router-link>
+      </li>
+      <li>
+        <router-link 
+          to="/category/technology" 
+          href="" 
+          class="link"
+          @click.native="closeMenu"
+        >
+          technology
+        </router-link>
+      </li>
     </ul>
   </nav>
 </template>
@@ -16,6 +79,11 @@
 <script>
 export default {
   name: 'MenuItens',
+  methods:{
+    closeMenu(){
+      this.$emit('closeMenu')
+    }
+  }
 };
 </script>
 
@@ -78,7 +146,7 @@ export default {
           background-color: #ffffff20;
           border-color: var(--white);
 
-          a{
+          router-link{
             transform: translateX(10px);
           }
         }

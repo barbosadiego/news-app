@@ -95,8 +95,8 @@ export default {
     },
   },
   created() {
-    this.getHeadlines()
-    this.getTopNews()
+    // this.getHeadlines()
+    // this.getTopNews()
     this.getWidth();
     window.addEventListener('resize', this.getDebounce(this.getWidth, 500));
   },

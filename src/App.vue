@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{ searchActive: searchActive }">
     <transition name="menu">
-      <MenuItens v-if="isMenuActive" />
+      <MenuItens v-if="isMenuActive" @closeMenu="handleMenu"/>
     </transition>
 
     <div class="content" :class="{ 'is-menu-active': isMenuActive }">
