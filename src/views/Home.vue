@@ -24,7 +24,7 @@
             adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
             vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
             magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
-            {{ hotTopics[0].content }}
+            {{ clearText(hotTopics[0].content) }}
           </p>
           <a :href="hotTopics[0].url" target="_blank">Read more</a>
         </div>
@@ -77,6 +77,10 @@ export default {
     timeLocale(time){
       return new Date(time).toLocaleDateString('pt-BR')
     },
+    clearText(text){
+      const regex = /\[\+\d+\s\w+\]/g
+      return text.replace(regex, '')
+    },
     async getHeadlines(){
       const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
       const response = await data.json()
@@ -91,8 +95,8 @@ export default {
     },
   },
   created() {
-    // this.getHeadlines()
-    // this.getTopNews()
+    this.getHeadlines()
+    this.getTopNews()
     this.getWidth();
     window.addEventListener('resize', this.getDebounce(this.getWidth, 500));
   },
