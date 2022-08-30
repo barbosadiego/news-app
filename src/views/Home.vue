@@ -41,7 +41,7 @@
             <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450' " :alt="item.title" />
             <h3 class="title">{{ item.title }}</h3>
             <div class="info">
-              <span class="publishedAt">{{ item.publishedAt }}</span>
+              <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
               <span class="source">{{ item.source.name }}</span>
             </div>
           </a>
@@ -73,6 +73,9 @@ export default {
         clearTimeout(time);
         time = setTimeout(func, wait);
       };
+    },
+    timeLocale(time){
+      return new Date(time).toLocaleDateString('pt-BR')
     },
     async getHeadlines(){
       const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
