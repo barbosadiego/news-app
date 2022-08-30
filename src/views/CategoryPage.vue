@@ -41,7 +41,7 @@ export default {
     console.log(this.newsCategory)
   },
   watch:{
-    
+    '$route': 'getCategoryNews'
   }
 }
 </script>
