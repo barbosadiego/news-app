@@ -3,87 +3,50 @@
     <div class="hot-topics">
       <h1>hot topics</h1>
       <div class="item">
-        <img src="@/assets/Rectangle 1.jpg" alt="" />
+
+        <img :src="hotTopics[0].urlToImage ? hotTopics[0].urlToImage : 'https://via.placeholder.com/750'" :alt="hotTopics[0].title"/>
+
         <div class="text">
+
           <p class="title">
-            Massa tortor nibh nulla condimentum imperdiet scelerisque...
+            {{ hotTopics[0].title }}
           </p>
           <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
+            <span class="publishedAt">{{ hotTopics[0].publishedAt }}</span>
+            <span class="source">{{ hotTopics[0].source.name }}</span>
           </div>
+
         </div>
+
         <div v-if="!isMobile" class="description">
           <p>
-            <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
+            <!-- <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
             adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
             vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
-            magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque...
+            magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
+            {{ hotTopics[0].content }}
           </p>
-          <a href="#">read more</a>
+          <a :href="hotTopics[0].url" target="_blank">Read more</a>
         </div>
+
       </div>
     </div>
 
     <div class="latest">
       <h2>latest news</h2>
       <div class="items-array">
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
+
+        <div class="item" v-for="item, index in headlines" :key="`${index} - ${item.source.name}`">
+          <a :href="item.url" target="_blank" rel="noopener noreferrer">
+            <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450' " :alt="item.title" />
+            <h3 class="title">{{ item.title }}</h3>
+            <div class="info">
+              <span class="publishedAt">{{ item.publishedAt }}</span>
+              <span class="source">{{ item.source.name }}</span>
+            </div>
+          </a>
         </div>
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="@/assets/Rectangle 1.jpg" alt="" />
-          <h3 class="title">News Title Lorem Ipsum Dolor Sit Amet</h3>
-          <div class="info">
-            <span class="publishedAt">2 Hours Agoi</span>
-            <span class="source">CNN Indonesia</span>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -95,13 +58,14 @@ export default {
   data() {
     return {
       isMobile: true,
+      headlines: [],
+      hotTopics: [],
     };
   },
   methods: {
     getWidth() {
       const width = window.innerWidth;
       width >= 1024 ? (this.isMobile = false) : (this.isMobile = true);
-      console.log('width');
     },
     getDebounce(func, wait) {
       let time;
@@ -110,8 +74,22 @@ export default {
         time = setTimeout(func, wait);
       };
     },
+    async getHeadlines(){
+      const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
+      const response = await data.json()
+      this.headlines = response.articles
+      // console.log(this.headlines)
+    },
+     async getTopNews(){
+      const data = await fetch('https://newsapi.org/v2/top-headlines?sources=globo&apiKey=10a22d9d876f43d5976a12223845ad75')
+      const response = await data.json()
+      this.hotTopics = response.articles
+      // console.log(this.hotTopics)
+    },
   },
   created() {
+    // this.getHeadlines()
+    // this.getTopNews()
     this.getWidth();
     window.addEventListener('resize', this.getDebounce(this.getWidth, 500));
   },
@@ -218,6 +196,7 @@ export default {
           font-weight: 400;
           line-height: rem(12);
           display: flex;
+          flex-wrap: wrap;
           gap: 16px;
         }
 
@@ -255,6 +234,7 @@ export default {
       @media screen and (min-width: 768px) {
         grid-template-columns: repeat(3, 1fr);
       }
+      //desktop
       @media screen and (min-width: 1024px) {
         grid-template-columns: repeat(4, 1fr);
       }
@@ -263,6 +243,19 @@ export default {
         img {
           border-radius: 8px;
           margin-bottom: 8px;
+          height: 96px;
+          width: 100%;
+          object-fit: cover;
+          object-position: left;
+          //tablet
+          @media screen and (min-width: 768px) {
+            height: 128px;
+          }
+          //desktop
+          @media screen and (min-width: 1024px) {
+            height: 176px;
+            width: 270px;
+          }
         }
 
         .title {
@@ -273,13 +266,21 @@ export default {
         }
 
         .info {
-          display: flex;
           font-size: rem(10);
           font-weight: 400;
           line-height: rem(16);
           gap: 5px;
           margin-top: 10px;
           color: var(--black-20);
+          //tablet
+          @media screen and (min-width:768px) {
+            display: flex;
+            flex-wrap: wrap;
+          }
+
+          span{
+            display: block;
+          }
         }
       }
     }

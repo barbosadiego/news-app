@@ -98,6 +98,7 @@ li {
 
 a {
   text-decoration: none;
+  color: var(--black-80);
 }
 
 img {
