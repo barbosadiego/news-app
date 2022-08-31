@@ -64,6 +64,7 @@ export default {
       const width = window.innerWidth;
       width >= 1024 ? (this.isMobile = false) : (this.isMobile = true);
     },
+    //debounce function
     getDebounce(func, wait) {
       let time;
       return function () {
@@ -82,18 +83,16 @@ export default {
       const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
       const response = await data.json()
       this.headlines = response.articles
-      // console.log(this.headlines)
     },
      async getTopNews(){
       const data = await fetch('https://newsapi.org/v2/top-headlines?sources=globo&apiKey=10a22d9d876f43d5976a12223845ad75')
       const response = await data.json()
       this.hotTopics = response.articles
-      // console.log(this.hotTopics)
     },
   },
   created() {
-    // this.getHeadlines()
-    // this.getTopNews()
+    this.getHeadlines()
+    this.getTopNews()
     this.getWidth();
     window.addEventListener('resize', this.getDebounce(this.getWidth, 500));
   },

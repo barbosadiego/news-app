@@ -1,9 +1,9 @@
 <template>
-  <div class="category">
-      <h1>Category: {{ $route.params.id }}</h1>
-      <div class="items-array">
+  <div class="search-results">
+    <h1>search results: </h1>
+    <div class="items-array">
 
-        <div class="item" v-for="item, index in newsCategory" :key="`${index} - ${item.source.name}`">
+        <div class="item" v-for="item, index in searchResults" :key="`${index} - ${item.source.name}`">
           <a :href="item.url" target="_blank" rel="noopener noreferrer">
             <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450'" :alt="item.title" />
             <h3 class="title">{{ item.title }}</h3>
@@ -15,43 +15,45 @@
         </div>
 
       </div>
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'CategoryPage',
+  name: 'SearchResults',
   data(){
     return{
-      newsCategory: [],
+      searchResults: [],
     }
   },
   methods:{
-    async getCategoryNews(){
-      const data = await fetch(`https://newsapi.org/v2/top-headlines?country=br&category=${this.$route.params.id}&apiKey=10a22d9d876f43d5976a12223845ad75`);
+    getParams(){
+      const url = new URLSearchParams(window.location.search);
+      const term = url.get('query');
+      if(term){
+        this.getSearch(term)
+      }
+    },
+    async getSearch(query){
+      const data = await fetch(`https://newsapi.org/v2/everything?q=${query}&language=pt&apiKey=10a22d9d876f43d5976a12223845ad75`);
       const response = await data.json();
-      this.newsCategory = response.articles;
+      this.searchResults = response.articles;
     },
     timeLocale(time){
       return new Date(time).toLocaleDateString('pt-BR')
-    },  
+    },
   },
   created(){
-    this.getCategoryNews()
-  },
-  watch:{
-    '$route': 'getCategoryNews'
+    this.getParams()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/Functions.scss';
-
-  .category{
-
+  .search-results{
     h1{
       margin: 40px 0 1rem 0;
+      text-transform: capitalize;
     }
 
     .items-array{

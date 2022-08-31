@@ -1,16 +1,29 @@
 <template>
   <div class="search-bar">
     <span class="material-icons close" @click="closeModal">close</span>
-    <input type="text" @keyup.enter="handleSearch" placeholder="Search..."/>
+    <input type="text" 
+      id="input"
+      placeholder="Search..."
+      @keyup.enter="handleSearch" 
+      v-model="article"
+      ref="search"
+    />
   </div>
 </template>
 
 <script>
 export default {
   name: 'SearchBar',
+  data(){
+    return{
+      article: '',
+    }
+  },
   methods: {
     handleSearch() {
-      console.log('ok');
+      this.$router.push({path: '/search', query: { query: this.article}});
+      this.closeModal();
+      this.article = '';
     },
     closeModal(){
       this.$emit('searchActive')
@@ -33,7 +46,6 @@ export default {
   align-items: center;
   justify-content: flex-start;
   background-color: rgba($color: #000000, $alpha: .95);
-  
 
   .close{
     color: var(--white);
@@ -50,6 +62,8 @@ export default {
     padding: 15px 13px;
     border-radius: 8px;
     border: none;
+    font-size: 1rem;
+
     //tablet style
     @media screen and (min-width: 768px) {
       width: 60%;

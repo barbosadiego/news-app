@@ -52,6 +52,8 @@ export default {
   methods: {
     handleSearch() {
       this.searchActive = !this.searchActive;
+      // const input = document.getElementById('input')
+      // if(this.searchActive) this.$$refs.search.$el.focus()
     },
     handleMenu() {
       this.isMenuActive = !this.isMenuActive;
@@ -64,7 +66,7 @@ export default {
     },
   },
   created() {
-    // this.getArticles();
+    this.getArticles();
   },
 };
 </script>
