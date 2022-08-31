@@ -15,6 +15,7 @@ export default {
 
 .error {
   h1 {
+    margin-top: 15vh;
     font-size: rem(25);
     font-weight: 400;
     font-family: 'Playfair Display', 'Times New Roman', Times, serif;

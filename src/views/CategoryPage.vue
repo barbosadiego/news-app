@@ -5,7 +5,7 @@
 
         <div class="item" v-for="item, index in newsCategory" :key="`${index} - ${item.source.name}`">
           <a :href="item.url" target="_blank" rel="noopener noreferrer">
-            <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450'" :alt="item.title" />
+            <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450?text=Image+Not+Found'" :alt="item.title" />
             <h3 class="title">{{ item.title }}</h3>
             <div class="info">
               <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>

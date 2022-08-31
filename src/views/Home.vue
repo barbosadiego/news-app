@@ -4,7 +4,7 @@
       <h1>hot topics</h1>
       <div class="item">
 
-        <img :src="hotTopics[newsIndex].urlToImage ? hotTopics[newsIndex].urlToImage : 'https://via.placeholder.com/75newsIndex'" :alt="hotTopics[newsIndex].title"/>
+        <img :src="hotTopics[newsIndex].urlToImage ? hotTopics[newsIndex].urlToImage : 'https://via.placeholder.com/750?text=Image+Not+Found'" :alt="hotTopics[newsIndex].title"/>
         <div class="text">
           <p class="title">
             {{ hotTopics[newsIndex].title }}
@@ -35,7 +35,7 @@
 
         <div class="item" v-for="item, index in headlines" :key="`${index} - ${item.source.name}`">
           <a :href="item.url" target="_blank" rel="noopener noreferrer">
-            <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450' " :alt="item.title" />
+            <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450?text=Image+Not+Found' " :alt="item.title" />
             <h3 class="title">{{ item.title }}</h3>
             <div class="info">
               <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
@@ -145,10 +145,10 @@ export default {
         width: 100%;
         object-fit: cover;
         object-position: top left;
+        border-radius: 8px;
         //tablet style
         @media screen and (min-width: 768px) {
           height: 355px;
-          border-radius: 8px;
         }
         //desktop style
         @media screen and (min-width: 1024px) {
@@ -211,7 +211,7 @@ export default {
       .description{
         grid-column: 4/5;
         padding: 10px 30px;
-        font-size: rem(16);
+        font-size: rem(18);
         font-family: 'Playfair Display', 'Times New Roman', Times, serif;
         font-weight: 400;
         line-height: rem(32);
