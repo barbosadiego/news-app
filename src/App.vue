@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{ searchActive: searchActive }">
     <transition name="menu">
-      <MenuItens v-if="isMenuActive" @closeMenu="handleMenu"/>
+      <MenuItens v-if="isMenuActive" @closeMenu="handleMenu" />
     </transition>
 
     <div class="content" :class="{ 'is-menu-active': isMenuActive }">
@@ -62,7 +62,6 @@ export default {
       const data = await fetch(`${this.baseURL}${this.country}${this.API_KEY}`);
       const res = await data.json();
       this.newsArticles = res.articles;
-      console.log(res);
     },
   },
   created() {
@@ -133,7 +132,7 @@ img {
   opacity: 0;
   transform: translateX(70%);
   //desktop
-  @media screen and (min-width:1024px) {
+  @media screen and (min-width: 1024px) {
     transform: translateX(20%);
   }
 }
