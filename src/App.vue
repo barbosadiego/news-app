@@ -25,6 +25,8 @@
 
       <router-view />
 
+      <ErrorPage v-if="isError" />
+
       <!-- Footer -->
     </div>
   </div>
@@ -33,16 +35,19 @@
 <script>
 import SearchBar from '@/components/SeachModal.vue';
 import MenuItens from '@/components/MenuItens.vue';
+import ErrorPage from '@/components/ErroPage.vue';
 
 export default {
   components: {
     SearchBar,
     MenuItens,
+    ErrorPage,
   },
   data() {
     return {
       searchActive: false,
       isMenuActive: false,
+      isError: false,
       newsArticles: [],
       API_KEY: 'apiKey=10a22d9d876f43d5976a12223845ad75',
       country: 'country=br&',
@@ -59,9 +64,16 @@ export default {
       this.isMenuActive = !this.isMenuActive;
     },
     async getArticles() {
-      const data = await fetch(`${this.baseURL}${this.country}${this.API_KEY}`);
-      const res = await data.json();
-      this.newsArticles = res.articles;
+      try {
+        const data = await fetch(
+          `${this.baseURL}${this.country}${this.API_KEY}`,
+        );
+        const res = await data.json();
+        this.newsArticles = res.articles;
+      } catch (error) {
+        console.log(error, this.isError);
+        this.isError = true;
+      }
     },
   },
   created() {

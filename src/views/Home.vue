@@ -4,14 +4,14 @@
       <h1>hot topics</h1>
       <div class="item">
 
-        <img :src="hotTopics[0].urlToImage ? hotTopics[0].urlToImage : 'https://via.placeholder.com/750'" :alt="hotTopics[0].title"/>
+        <img :src="hotTopics[newsIndex].urlToImage ? hotTopics[newsIndex].urlToImage : 'https://via.placeholder.com/75newsIndex'" :alt="hotTopics[newsIndex].title"/>
         <div class="text">
           <p class="title">
-            {{ hotTopics[0].title }}
+            {{ hotTopics[newsIndex].title }}
           </p>
           <div class="info">
-            <span class="publishedAt">{{ hotTopics[0].publishedAt }}</span>
-            <span class="source">{{ hotTopics[0].source.name }}</span>
+            <span class="publishedAt">{{ hotTopics[newsIndex].publishedAt }}</span>
+            <span class="source">{{ hotTopics[newsIndex].source.name }}</span>
           </div>
         </div>
 
@@ -21,9 +21,9 @@
             adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
             vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
             magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
-            {{ clearText(hotTopics[0].content) }}
+            {{ clearText(hotTopics[newsIndex].content) }}
           </p>
-          <a :href="hotTopics[0].url" target="_blank">Read more</a>
+          <a :href="hotTopics[newsIndex].url" target="_blank">Read more</a>
         </div>
 
       </div>
@@ -57,6 +57,7 @@ export default {
       isMobile: true,
       headlines: [],
       hotTopics: [],
+      newsIndex: 0,
     };
   },
   methods: {
@@ -85,9 +86,10 @@ export default {
       this.headlines = response.articles
     },
      async getTopNews(){
-      const data = await fetch('https://newsapi.org/v2/top-headlines?sources=globo&apiKey=10a22d9d876f43d5976a12223845ad75')
+      const data = await fetch('https://newsapi.org/v2/top-headlines?country=pt&apiKey=10a22d9d876f43d5976a12223845ad75')
       const response = await data.json()
       this.hotTopics = response.articles
+      this.newsIndex = Math.round(Math.random() * response.articles.length-1)
     },
   },
   created() {
@@ -131,8 +133,8 @@ export default {
         display: block;
         position: absolute;
         border-radius: 8px;
-        // background-color: rgba($color: #000000, $alpha: .4);
-        background: linear-gradient(180deg, transparent 30%, #000000);
+        // background-color: rgba($color: #000000, $alpha: .6);
+        background: linear-gradient(-90deg, transparent, rgba(0, 0, 0, 0.99) 95%);
         //desktop style
         @media screen and (min-width: 1024px) {
           grid-column: 1/4;
@@ -142,6 +144,7 @@ export default {
       img {
         width: 100%;
         object-fit: cover;
+        object-position: top left;
         //tablet style
         @media screen and (min-width: 768px) {
           height: 355px;
