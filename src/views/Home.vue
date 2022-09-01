@@ -80,10 +80,24 @@ export default {
       const regex = /\[\+\d+\s\w+\]/g
       return text.replace(regex, '')
     },
+    handleError(msg){
+      this.$emit('errorActive', msg)
+    },
     async getHeadlines(){
-      const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
-      const response = await data.json()
-      this.headlines = response.articles
+      try{
+        const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
+        const response = await data.json()
+        if(data.ok){
+          this.headlines = response.articles
+        } else {
+          console.log(response)
+          this.handleError(response.message)
+          throw new Error(response.code + ' | ' + response.message)
+        }
+      } catch(error){
+        console.log(error)
+      }
+      
     },
      async getTopNews(){
       const data = await fetch('https://newsapi.org/v2/top-headlines?country=pt&apiKey=10a22d9d876f43d5976a12223845ad75')

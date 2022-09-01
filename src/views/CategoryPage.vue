@@ -27,10 +27,23 @@ export default {
     }
   },
   methods:{
+    handleError(msg){
+      this.$emit('errorActive', msg)
+    },
     async getCategoryNews(){
-      const data = await fetch(`https://newsapi.org/v2/top-headlines?country=br&category=${this.$route.params.id}&apiKey=10a22d9d876f43d5976a12223845ad75`);
-      const response = await data.json();
-      this.newsCategory = response.articles;
+      try{
+        const data = await fetch(`https://newsapi.org/v2/top-headlines?country=br&category=${this.$route.params.id}&apiKey=10a22d9d876f43d5976a12223845ad75`);
+        const response = await data.json();
+        if(data.ok){
+          this.newsCategory = response.articles;
+        } else {
+          console.log(response)
+          this.handleError(response.message)
+          throw new Error(response.code + ' | ' + response.message)
+        }
+      } catch (error){
+        console.log(error);
+      }
     },
     timeLocale(time){
       return new Date(time).toLocaleDateString('pt-BR')

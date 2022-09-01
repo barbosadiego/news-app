@@ -4,7 +4,7 @@
       <MenuItens v-if="isMenuActive" @closeMenu="handleMenu" />
     </transition>
 
-    <div class="content" :class="{ 'is-menu-active': isMenuActive }">
+    <div class="content" :class="{ 'is-menu-active': isMenuActive }" >
       <div class="header">
         <a href="/" class="logo">
           <img src="@/assets/logo.svg" alt="News Portal logo" />
@@ -23,9 +23,9 @@
         <SearchBar v-if="searchActive" @searchActive="handleSearch" />
       </transition>
 
-      <router-view />
+      <router-view @errorActive="handleError" />
 
-      <ErrorPage v-if="isError" />
+      <ErrorPage v-if="isError" :errorMsg="errorMsg"/>
 
       <!-- Footer -->
     </div>
@@ -48,6 +48,7 @@ export default {
       searchActive: false,
       isMenuActive: false,
       isError: false,
+      errorMsg: '',
       newsArticles: [],
       API_KEY: 'apiKey=10a22d9d876f43d5976a12223845ad75',
       country: 'country=br&',
@@ -63,11 +64,13 @@ export default {
     handleMenu() {
       this.isMenuActive = !this.isMenuActive;
     },
+    handleError(msg){
+      this.errorMsg = msg;
+      this.isError = true;
+    },
     async getArticles() {
       try {
-        const data = await fetch(
-          `${this.baseURL}${this.country}${this.API_KEY}`,
-        );
+        const data = await fetch(`${this.baseURL}${this.country}${this.API_KEY}`);
         const res = await data.json();
         this.newsArticles = res.articles;
       } catch (error) {
