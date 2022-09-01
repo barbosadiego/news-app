@@ -27,8 +27,12 @@
 
       <ErrorPage v-if="isError" :errorMsg="errorMsg"/>
 
-      <!-- Footer -->
     </div>
+    
+    <footer v-if="isDesktop" class="footer">
+      <p>Copyright 2022 News Portal</p>
+    </footer>
+
   </div>
 </template>
 
@@ -49,6 +53,7 @@ export default {
       isMenuActive: false,
       isError: false,
       errorMsg: '',
+      isDesktop: false,
       newsArticles: [],
       API_KEY: 'apiKey=10a22d9d876f43d5976a12223845ad75',
       country: 'country=br&',
@@ -58,9 +63,6 @@ export default {
   methods: {
     handleSearch() {
       this.searchActive = !this.searchActive;
-      const input = document.getElementById('input')
-      // if(this.searchActive) this.$refs.search.focus()
-      input.focus()
     },
     handleMenu() {
       this.isMenuActive = !this.isMenuActive;
@@ -79,9 +81,25 @@ export default {
         this.isError = true;
       }
     },
+    checkIsDesktop(){
+      // console.log(this.isDesktop)
+      return window.innerWidth >= 1024 ? this.isDesktop = true : this.isDesktop = false;
+    }
+  },
+  computed:{
+    //debounce
+    debounce(action, wait){
+      let timeout;
+      return function(){
+        clearTimeout(timeout);
+        timeout = setTimeout(action, wait);
+      }
+    },
   },
   created() {
     this.getArticles();
+    this.checkIsDesktop();
+    window.addEventListener('resize', () => this.debounce(this.checkIsDesktop(), 150))
   },
 };
 </script>
@@ -155,8 +173,12 @@ img {
 
 #app {
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
   .content {
+    flex: 1;
     z-index: 5;
     min-height: 100vh;
     padding: 30px;
@@ -201,6 +223,19 @@ img {
 
     & > div {
       padding: 10px;
+    }
+  }
+
+  .footer{
+    background-color: var(--bg-color);
+    height: 83px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p{
+      font-family: 'Playfair Display', 'Times New Roman', Times, serif;
+      color: var(--black-20);
     }
   }
 }

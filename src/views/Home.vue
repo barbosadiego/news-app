@@ -100,7 +100,7 @@ export default {
       
     },
      async getTopNews(){
-      const data = await fetch('https://newsapi.org/v2/top-headlines?country=pt&apiKey=10a22d9d876f43d5976a12223845ad75')
+      const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
       const response = await data.json()
       this.hotTopics = response.articles
       this.newsIndex = Math.round(Math.random() * response.articles.length-1)
