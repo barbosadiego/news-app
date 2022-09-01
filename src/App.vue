@@ -4,7 +4,7 @@
       <MenuItens v-if="isMenuActive" @closeMenu="handleMenu" />
     </transition>
 
-    <div class="content" :class="{ 'is-menu-active': isMenuActive }" >
+    <div v-if="!isLoading" class="content" :class="{ 'is-menu-active': isMenuActive }">
       <div class="header">
         <a href="/" class="logo">
           <img src="@/assets/logo.svg" alt="News Portal logo" />
@@ -23,16 +23,14 @@
         <SearchBar v-if="searchActive" @searchActive="handleSearch" />
       </transition>
 
-      <router-view @errorActive="handleError" />
+      <router-view @errorActive="handleError(msg)" @isLoading="handleLoading(state)"/>
 
-      <ErrorPage v-if="isError" :errorMsg="errorMsg"/>
-
+      <ErrorPage v-if="isError" :errorMsg="errorMsg" />
     </div>
-    
+
     <footer v-if="isDesktop" class="footer">
       <p>Copyright 2022 News Portal</p>
     </footer>
-
   </div>
 </template>
 
@@ -54,10 +52,7 @@ export default {
       isError: false,
       errorMsg: '',
       isDesktop: false,
-      newsArticles: [],
-      API_KEY: 'apiKey=10a22d9d876f43d5976a12223845ad75',
-      country: 'country=br&',
-      baseURL: 'https://newsapi.org/v2/top-headlines?',
+      isLoading: false,
     };
   },
   methods: {
@@ -67,39 +62,31 @@ export default {
     handleMenu() {
       this.isMenuActive = !this.isMenuActive;
     },
-    handleError(msg){
+    handleError(msg) {
       this.errorMsg = msg;
       this.isError = true;
     },
-    async getArticles() {
-      try {
-        const data = await fetch(`${this.baseURL}${this.country}${this.API_KEY}`);
-        const res = await data.json();
-        this.newsArticles = res.articles;
-      } catch (error) {
-        console.log(error, this.isError);
-        this.isError = true;
-      }
-    },
-    checkIsDesktop(){
+    checkIsDesktop() {
       // console.log(this.isDesktop)
-      return window.innerWidth >= 1024 ? this.isDesktop = true : this.isDesktop = false;
-    }
+      return window.innerWidth >= 1024
+        ? (this.isDesktop = true)
+        : (this.isDesktop = false);
+    },
   },
-  computed:{
+  computed: {
     //debounce
-    debounce(action, wait){
+    debounce(action, wait) {
       let timeout;
-      return function(){
+      return function () {
         clearTimeout(timeout);
         timeout = setTimeout(action, wait);
-      }
+      };
     },
   },
   created() {
-    this.getArticles();
-    this.checkIsDesktop();
-    window.addEventListener('resize', () => this.debounce(this.checkIsDesktop(), 150))
+    window.addEventListener('resize', () =>
+      this.debounce(this.checkIsDesktop(), 150),
+    );
   },
 };
 </script>
@@ -186,6 +173,7 @@ img {
     //desktop width
     @media screen and (min-width: 1200px) {
       max-width: 1170px;
+      width: 100%;
       margin: 0 auto;
     }
 
@@ -226,14 +214,14 @@ img {
     }
   }
 
-  .footer{
+  .footer {
     background-color: var(--bg-color);
     height: 83px;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    p{
+    p {
       font-family: 'Playfair Display', 'Times New Roman', Times, serif;
       color: var(--black-20);
     }

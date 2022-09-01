@@ -1,63 +1,91 @@
 <template>
   <div class="home-page">
-    <div class="hot-topics">
-      <h1>hot topics</h1>
-      <div class="item">
+    <Loading v-if="isLoading"/>
 
-        <img :src="hotTopics[newsIndex].urlToImage ? hotTopics[newsIndex].urlToImage : 'https://via.placeholder.com/750?text=Image+Not+Found'" :alt="hotTopics[newsIndex].title"/>
-        <div class="text">
-          <p class="title">
-            {{ hotTopics[newsIndex].title }}
-          </p>
-          <div class="info">
-            <span class="publishedAt">{{ hotTopics[newsIndex].publishedAt }}</span>
-            <span class="source">{{ hotTopics[newsIndex].source.name }}</span>
+    <div v-else>
+      <div class="hot-topics">
+        <h1>hot topics</h1>
+        <div class="item">
+          <img
+            :src="
+              hotTopics[newsIndex].urlToImage
+                ? hotTopics[newsIndex].urlToImage
+                : 'https://via.placeholder.com/750?text=Image+Not+Found'
+            "
+            :alt="hotTopics[newsIndex].title"
+          />
+          <div class="text">
+            <p class="title">
+              {{ hotTopics[newsIndex].title }}
+            </p>
+            <div class="info">
+              <span class="publishedAt">{{
+                hotTopics[newsIndex].publishedAt
+              }}</span>
+              <span class="source">{{ hotTopics[newsIndex].source.name }}</span>
+            </div>
+          </div>
+
+          <div v-if="!isMobile" class="description">
+            <p>
+              <!-- <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
+              adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
+              vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
+              magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
+              {{ clearText(hotTopics[newsIndex].content) }}
+            </p>
+            <a :href="hotTopics[newsIndex].url" target="_blank">Read more</a>
           </div>
         </div>
-
-        <div v-if="!isMobile" class="description">
-          <p>
-            <!-- <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
-            adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
-            vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
-            magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
-            {{ clearText(hotTopics[newsIndex].content) }}
-          </p>
-          <a :href="hotTopics[newsIndex].url" target="_blank">Read more</a>
-        </div>
-
       </div>
-    </div>
 
-    <div class="latest">
-      <h2>latest news</h2>
-      <div class="items-array">
-
-        <div class="item" v-for="item, index in headlines" :key="`${index} - ${item.source.name}`">
-          <a :href="item.url" target="_blank" rel="noopener noreferrer">
-            <img :src="item.urlToImage ? item.urlToImage : 'https://via.placeholder.com/450?text=Image+Not+Found' " :alt="item.title" />
-            <h3 class="title">{{ item.title }}</h3>
-            <div class="info">
-              <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
-              <span class="source">{{ item.source.name }}</span>
-            </div>
-          </a>
+      <div class="latest">
+        <h2>latest news</h2>
+        <div class="items-array">
+          <div
+            class="item"
+            v-for="(item, index) in headlines"
+            :key="`${index} - ${item.source.name}`"
+          >
+            <a :href="item.url" target="_blank" rel="noopener noreferrer">
+              <img
+                :src="
+                  item.urlToImage
+                    ? item.urlToImage
+                    : 'https://via.placeholder.com/450?text=Image+Not+Found'
+                "
+                :alt="item.title"
+              />
+              <h3 class="title">{{ item.title }}</h3>
+              <div class="info">
+                <span class="publishedAt">{{
+                  timeLocale(item.publishedAt)
+                }}</span>
+                <span class="source">{{ item.source.name }}</span>
+              </div>
+            </a>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue';
+
 export default {
   name: 'HomePage',
+  components:{
+    Loading,
+  },
   data() {
     return {
       isMobile: true,
       headlines: [],
       hotTopics: [],
       newsIndex: 0,
+      isLoading: false,
     };
   },
   methods: {
@@ -73,42 +101,50 @@ export default {
         time = setTimeout(func, wait);
       };
     },
-    timeLocale(time){
-      return new Date(time).toLocaleDateString('pt-BR')
+    timeLocale(time) {
+      return new Date(time).toLocaleDateString('pt-BR');
     },
-    clearText(text){
-      const regex = /\[\+\d+\s\w+\]/g
-      return text.replace(regex, '')
+    clearText(text) {
+      const regex = /\[\+\d+\s\w+\]/g;
+      return text.replace(regex, '');
     },
-    handleError(msg){
-      this.$emit('errorActive', msg)
+    handleError(msg) {
+      this.$emit('errorActive', msg);
     },
-    async getHeadlines(){
-      try{
-        const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
-        const response = await data.json()
-        if(data.ok){
-          this.headlines = response.articles
+    async getHeadlines() {
+      try {
+        this.isLoading = true;
+        const data = await fetch(
+          'https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75',
+        );
+        const response = await data.json();
+        if (data.ok) {
+          this.isLoading = false;
+          this.headlines = response.articles;
         } else {
-          console.log(response)
-          this.handleError(response.message)
-          throw new Error(response.code + ' | ' + response.message)
+          this.isLoading = false;
+          console.log(response);
+          this.handleError(response.message);
+          throw new Error(response.code + ' | ' + response.message);
         }
-      } catch(error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
       }
-      
     },
-     async getTopNews(){
-      const data = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75')
-      const response = await data.json()
-      this.hotTopics = response.articles
-      this.newsIndex = Math.round(Math.random() * response.articles.length-1)
+    async getTopNews() {
+      this.isLoading = true;
+      const data = await fetch(
+        'https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75',
+      );
+      const response = await data.json();
+      this.hotTopics = response.articles;
+      this.newsIndex = Math.round(Math.random() * response.articles.length - 1);
+      this.isLoading = false;
     },
   },
   created() {
-    this.getHeadlines()
-    this.getTopNews()
+    this.getHeadlines();
+    this.getTopNews();
     this.getWidth();
     window.addEventListener('resize', this.getDebounce(this.getWidth, 500));
   },
@@ -148,7 +184,11 @@ export default {
         position: absolute;
         border-radius: 8px;
         // background-color: rgba($color: #000000, $alpha: .6);
-        background: linear-gradient(-90deg, transparent, rgba(0, 0, 0, 0.99) 95%);
+        background: linear-gradient(
+          -90deg,
+          transparent,
+          rgba(0, 0, 0, 0.99) 95%
+        );
         //desktop style
         @media screen and (min-width: 1024px) {
           grid-column: 1/4;
@@ -219,10 +259,9 @@ export default {
           flex-wrap: wrap;
           gap: 16px;
         }
-
       }
 
-      .description{
+      .description {
         grid-column: 4/5;
         padding: 10px 30px;
         font-size: rem(18);
@@ -230,7 +269,7 @@ export default {
         font-weight: 400;
         line-height: rem(32);
 
-        span{
+        span {
           font-size: rem(36);
         }
       }
@@ -293,12 +332,12 @@ export default {
           margin-top: 10px;
           color: var(--black-20);
           //tablet
-          @media screen and (min-width:768px) {
+          @media screen and (min-width: 768px) {
             display: flex;
             flex-wrap: wrap;
           }
 
-          span{
+          span {
             display: block;
           }
         }

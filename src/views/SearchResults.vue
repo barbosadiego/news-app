@@ -1,39 +1,49 @@
 <template>
   <div class="search-results">
-    <h1>search results: {{ searchItem }}</h1>
-    <div class="items-array">
-      <div
-        class="item"
-        v-for="(item, index) in searchResults"
-        :key="`${index} - ${item.source.name}`"
-      >
-        <a :href="item.url" target="_blank" rel="noopener noreferrer">
-          <img
-            :src="
-              item.urlToImage
-                ? item.urlToImage
-                : 'https://via.placeholder.com/450'
-            "
-            :alt="item.title"
-          />
-          <h3 class="title">{{ item.title }}</h3>
-          <div class="info">
-            <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
-            <span class="source">{{ item.source.name }}</span>
-          </div>
-        </a>
+    <Loading v-if="isLoading"/>
+
+    <div v-else>
+      <h1>search results: {{ searchItem }}</h1>
+      <div class="items-array">
+        <div
+          class="item"
+          v-for="(item, index) in searchResults"
+          :key="`${index} - ${item.source.name}`"
+        >
+          <a :href="item.url" target="_blank" rel="noopener noreferrer">
+            <img
+              :src="
+                item.urlToImage
+                  ? item.urlToImage
+                  : 'https://via.placeholder.com/450'
+              "
+              :alt="item.title"
+            />
+            <h3 class="title">{{ item.title }}</h3>
+            <div class="info">
+              <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
+              <span class="source">{{ item.source.name }}</span>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue';
+
 export default {
   name: 'SearchResults',
+  components: {
+    Loading,
+  },
   data() {
     return {
       searchResults: [],
       searchItem: '',
+      isLoading: false,
     };
   },
   methods: {
@@ -46,11 +56,19 @@ export default {
       }
     },
     async getSearch(query) {
-      const data = await fetch(
-        `https://newsapi.org/v2/everything?q=${query}&language=pt&apiKey=10a22d9d876f43d5976a12223845ad75`,
-      );
-      const response = await data.json();
-      this.searchResults = response.articles;
+      try {
+        this.isLoading = true;
+        const data = await fetch(
+          `https://newsapi.org/v2/everything?q=${query}&language=pt&apiKey=10a22d9d876f43d5976a12223845ad75`,
+        );
+        if (data.ok) {
+          this.isLoading = false;
+          const response = await data.json();
+          this.searchResults = response.articles;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     timeLocale(time) {
       return new Date(time).toLocaleDateString('pt-BR');

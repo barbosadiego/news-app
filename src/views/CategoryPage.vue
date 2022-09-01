@@ -1,5 +1,7 @@
 <template>
   <div class="category">
+      <Loading v-if="isLoading"/>
+
       <h1>Category: {{ $route.params.id }}</h1>
       <div class="items-array">
 
@@ -19,11 +21,17 @@
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue';
+
 export default {
   name: 'CategoryPage',
+  components:{
+    Loading,
+  },
   data(){
     return{
       newsCategory: [],
+      isLoading: false,
     }
   },
   methods:{
@@ -32,11 +40,14 @@ export default {
     },
     async getCategoryNews(){
       try{
+        this.isLoading = true;
         const data = await fetch(`https://newsapi.org/v2/top-headlines?country=br&category=${this.$route.params.id}&apiKey=10a22d9d876f43d5976a12223845ad75`);
         const response = await data.json();
         if(data.ok){
+          this.isLoading = false;
           this.newsCategory = response.articles;
         } else {
+          this.isLoading = false;
           console.log(response)
           this.handleError(response.message)
           throw new Error(response.code + ' | ' + response.message)
