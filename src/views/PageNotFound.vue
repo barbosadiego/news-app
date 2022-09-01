@@ -2,7 +2,7 @@
   <div class="not-found">
     <p>
       The page you are looking for have been moved, deleted, <br />
-      or possibly never existed
+      or possibly never existed.
     </p>
     <h1>404</h1>
   </div>

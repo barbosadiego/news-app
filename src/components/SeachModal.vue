@@ -1,13 +1,16 @@
 <template>
   <div class="search-bar">
     <span class="material-icons close" @click="closeModal">close</span>
-    <input type="text" 
-      id="input"
-      placeholder="Search..."
-      @keyup.enter="handleSearch" 
-      v-model="article"
-      ref="search"
-    />
+    <div class="input-area">
+      <input type="text"
+        id="input"
+        placeholder="Search..."
+        @keyup.enter="handleSearch"
+        v-model="article"
+        ref="search"
+      />
+      <button class="submit-btn" type="submit" @click="handleSearch">Go</button>
+    </div>
   </div>
 </template>
 
@@ -21,9 +24,11 @@ export default {
   },
   methods: {
     handleSearch() {
-      this.$router.push({path: '/search', query: { query: this.article}});
-      this.closeModal();
-      this.article = '';
+      if(this.article.length){
+        this.$router.push({path: '/search', query: { query: this.article}});
+        this.closeModal();
+        this.article = '';
+      }
     },
     closeModal(){
       this.$emit('searchActive')
@@ -56,14 +61,13 @@ export default {
     cursor: pointer;
   }
 
-  input {
+  .input-area{
     margin-top: 30vh;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
     width: 90%;
-    padding: 15px 13px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-
     //tablet style
     @media screen and (min-width: 768px) {
       width: 60%;
@@ -73,8 +77,35 @@ export default {
       width: 40%;
     }
 
-    &::placeholder{
-      font-family: 'Roboto', sans-serif;
+    #input {
+      width: 100%;
+      padding: 15px 53px 15px 13px;
+      border-radius: 8px;
+      border: 1px solid black;
+      font-size: 1rem;
+      outline: 2px solid transparent;
+      transition: .3s;
+
+      &::placeholder{
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+      }
+
+      &:focus{
+        outline: 2px solid var(--white);
+      }
+    }
+
+    .submit-btn{
+      position: absolute;
+      height: 100%;
+      width: 41px;
+      right: 0px;
+      cursor: pointer;
+      border: none;
+      background-color: var(--black-80);
+      color: var(--white);
+      border-radius: 0px 8px 8px 0px;
       font-size: 1rem;
     }
   }

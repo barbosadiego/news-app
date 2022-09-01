@@ -58,8 +58,9 @@ export default {
   methods: {
     handleSearch() {
       this.searchActive = !this.searchActive;
-      // const input = document.getElementById('input')
-      // if(this.searchActive) this.$$refs.search.$el.focus()
+      const input = document.getElementById('input')
+      // if(this.searchActive) this.$refs.search.focus()
+      input.focus()
     },
     handleMenu() {
       this.isMenuActive = !this.isMenuActive;
