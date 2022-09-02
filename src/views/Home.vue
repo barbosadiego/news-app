@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <Loading v-if="isLoading"/>
+    <Loading v-if="isLoading" />
 
     <div v-else>
       <div class="hot-topics">
@@ -8,8 +8,8 @@
         <div class="item">
           <img
             :src="
-              hotTopics[newsIndex].urlToImage
-                ? hotTopics[newsIndex].urlToImage
+              hotTopics[newsIndex].image
+                ? hotTopics[newsIndex].image
                 : 'https://via.placeholder.com/750?text=Image+Not+Found'
             "
             :alt="hotTopics[newsIndex].title"
@@ -50,8 +50,8 @@
             <a :href="item.url" target="_blank" rel="noopener noreferrer">
               <img
                 :src="
-                  item.urlToImage
-                    ? item.urlToImage
+                  item.image
+                    ? item.image
                     : 'https://via.placeholder.com/450?text=Image+Not+Found'
                 "
                 :alt="item.title"
@@ -76,7 +76,7 @@ import Loading from '@/components/Loading.vue';
 
 export default {
   name: 'HomePage',
-  components:{
+  components: {
     Loading,
   },
   data() {
@@ -115,7 +115,7 @@ export default {
       try {
         this.isLoading = true;
         const data = await fetch(
-          'https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75',
+          'https://gnews.io/api/v4/top-headlines?token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt',
         );
         const response = await data.json();
         if (data.ok) {
@@ -134,7 +134,7 @@ export default {
     async getTopNews() {
       this.isLoading = true;
       const data = await fetch(
-        'https://newsapi.org/v2/top-headlines?country=br&apiKey=10a22d9d876f43d5976a12223845ad75',
+        'https://gnews.io/api/v4/top-headlines?token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt',
       );
       const response = await data.json();
       this.hotTopics = response.articles;
