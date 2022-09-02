@@ -2,7 +2,7 @@
   <div class="home-page">
     <Loading v-if="isLoading" />
 
-    <div v-else>
+    <div>
       <div class="hot-topics">
         <h1>hot topics</h1>
         <div class="item">
@@ -108,12 +108,10 @@ export default {
       const regex = /\[\d+\s\w+\]/g;
       return text.replace(regex, '');
     },
-    handleError(msg) {
-      this.$emit('errorActive', msg);
-    },
     async getHeadlines() {
       try {
         this.isLoading = true;
+        console.log(this.isLoading)
         const data = await fetch(
           'https://gnews.io/api/v4/top-headlines?token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt',
         );
@@ -123,23 +121,26 @@ export default {
           this.headlines = response.articles;
         } else {
           this.isLoading = false;
-          console.log(response);
-          this.handleError(response.message);
-          throw new Error(response.code + ' | ' + response.message);
+          console.log(this.isLoading);
+          this.$emit('errorActive', response.errors[0]);
+          throw new Error(response.errors);
         }
       } catch (error) {
+        this.isLoading = false;
         console.log(error);
+        console.log('ok tesete aqui');
+        console.log(this.isLoading);
       }
     },
     async getTopNews() {
-      this.isLoading = true;
+      // this.isLoading = true;
       const data = await fetch(
         'https://gnews.io/api/v4/top-headlines?token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt',
       );
       const response = await data.json();
       this.hotTopics = response.articles;
       this.newsIndex = Math.round(Math.random() * response.articles.length - 1);
-      this.isLoading = false;
+      // this.isLoading = false;
     },
   },
   created() {

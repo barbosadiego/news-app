@@ -61,10 +61,15 @@ export default {
         const data = await fetch(
           `https://gnews.io/api/v4/search?q=${query}&token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt`,
         );
+        const response = await data.json();
         if (data.ok) {
           this.isLoading = false;
-          const response = await data.json();
           this.searchResults = response.articles;
+        } else {
+          this.isLoading = false;
+          console.log(response.errors)
+          this.$emit('errorActive', response.errors[0]);
+          throw new Error(response.errors[0])
         }
       } catch (error) {
         console.log(error);

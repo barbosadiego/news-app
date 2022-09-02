@@ -23,7 +23,7 @@
         <SearchBar v-if="searchActive" @searchActive="handleSearch" />
       </transition>
 
-      <router-view @errorActive="handleError(msg)" @isLoading="handleLoading(state)"/>
+      <router-view @errorActive="handleError" />
 
       <ErrorPage v-if="isError" :errorMsg="errorMsg" />
     </div>

@@ -2,28 +2,30 @@
   <div class="category">
     <Loading v-if="isLoading" />
 
-    <h1>Category: {{ $route.params.id }}</h1>
-    <div class="items-array">
-      <div
-        class="item"
-        v-for="(item, index) in newsCategory"
-        :key="`${index} - ${item.source.name}`"
-      >
-        <a :href="item.url" target="_blank" rel="noopener noreferrer">
-          <img
-            :src="
-              item.image
-                ? item.image
-                : 'https://via.placeholder.com/450?text=Image+Not+Found'
-            "
-            :alt="item.title"
-          />
-          <h3 class="title">{{ item.title }}</h3>
-          <div class="info">
-            <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
-            <span class="source">{{ item.source.name }}</span>
-          </div>
-        </a>
+    <div v-else>
+      <h1>Category: {{ $route.params.id }}</h1>
+      <div class="items-array">
+        <div
+          class="item"
+          v-for="(item, index) in newsCategory"
+          :key="`${index} - ${item.source.name}`"
+        >
+          <a :href="item.url" target="_blank" rel="noopener noreferrer">
+            <img
+              :src="
+                item.image
+                  ? item.image
+                  : 'https://via.placeholder.com/450?text=Image+Not+Found'
+              "
+              :alt="item.title"
+            />
+            <h3 class="title">{{ item.title }}</h3>
+            <div class="info">
+              <span class="publishedAt">{{ timeLocale(item.publishedAt) }}</span>
+              <span class="source">{{ item.source.name }}</span>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -60,8 +62,8 @@ export default {
         } else {
           this.isLoading = false;
           console.log(response);
-          this.handleError(response.message);
-          throw new Error(response.code + ' | ' + response.message);
+          this.handleError(response.errors[0]);
+          throw new Error(response.errors);
         }
       } catch (error) {
         console.log(error);
