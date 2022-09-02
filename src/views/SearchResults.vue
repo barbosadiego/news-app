@@ -13,8 +13,8 @@
           <a :href="item.url" target="_blank" rel="noopener noreferrer">
             <img
               :src="
-                item.urlToImage
-                  ? item.urlToImage
+                item.image
+                  ? item.image
                   : 'https://via.placeholder.com/450'
               "
               :alt="item.title"
@@ -59,7 +59,7 @@ export default {
       try {
         this.isLoading = true;
         const data = await fetch(
-          `https://newsapi.org/v2/everything?q=${query}&language=pt&apiKey=10a22d9d876f43d5976a12223845ad75`,
+          `https://gnews.io/api/v4/search?q=${query}&token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt`,
         );
         if (data.ok) {
           this.isLoading = false;
