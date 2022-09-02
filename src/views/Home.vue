@@ -105,7 +105,7 @@ export default {
       return new Date(time).toLocaleDateString('pt-BR');
     },
     clearText(text) {
-      const regex = /\[\+\d+\s\w+\]/g;
+      const regex = /\[\d+\s\w+\]/g;
       return text.replace(regex, '');
     },
     handleError(msg) {
