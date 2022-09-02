@@ -6,7 +6,7 @@
 
     <div v-if="!isLoading" class="content" :class="{ 'is-menu-active': isMenuActive }">
       <div class="header">
-        <a href="/" class="logo">
+        <a href="/news-app-repo" class="logo">
           <img src="@/assets/logo.svg" alt="News Portal logo" />
         </a>
         <div class="icons">
