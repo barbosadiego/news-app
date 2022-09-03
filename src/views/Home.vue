@@ -111,7 +111,6 @@ export default {
     async getHeadlines() {
       try {
         this.isLoading = true;
-        console.log(this.isLoading)
         const data = await fetch(
           'https://gnews.io/api/v4/top-headlines?token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt',
         );
@@ -121,26 +120,21 @@ export default {
           this.headlines = response.articles;
         } else {
           this.isLoading = false;
-          console.log(this.isLoading);
           this.$emit('errorActive', response.errors[0]);
           throw new Error(response.errors);
         }
       } catch (error) {
         this.isLoading = false;
-        console.log(error);
-        console.log('ok tesete aqui');
-        console.log(this.isLoading);
+        throw new Error(error);
       }
     },
     async getTopNews() {
-      // this.isLoading = true;
       const data = await fetch(
         'https://gnews.io/api/v4/top-headlines?token=65770b6f1d5cfb259f19aa1ee5355d87&lang=pt',
       );
       const response = await data.json();
       this.hotTopics = response.articles;
       this.newsIndex = Math.round(Math.random() * response.articles.length - 1);
-      // this.isLoading = false;
     },
   },
   created() {
