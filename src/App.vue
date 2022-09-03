@@ -84,6 +84,7 @@ export default {
     },
   },
   created() {
+    this.checkIsDesktop();
     window.addEventListener('resize', () =>
       this.debounce(this.checkIsDesktop(), 150),
     );

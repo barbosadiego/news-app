@@ -2,7 +2,7 @@
   <div class="home-page">
     <Loading v-if="isLoading" />
 
-    <div>
+    <div v-else>
       <div class="hot-topics">
         <h1>hot topics</h1>
         <div class="item">
