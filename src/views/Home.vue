@@ -5,38 +5,40 @@
     <div v-else>
       <div class="hot-topics">
         <h1>hot topics</h1>
-        <div class="item">
-          <img
-            :src="
-              hotTopics[newsIndex].image
-                ? hotTopics[newsIndex].image
-                : 'https://via.placeholder.com/750?text=Image+Not+Found'
-            "
-            :alt="hotTopics[newsIndex].title"
-          />
-          <div class="text">
-            <p class="title">
-              {{ hotTopics[newsIndex].title }}
-            </p>
-            <div class="info">
-              <span class="publishedAt">{{
-                hotTopics[newsIndex].publishedAt
-              }}</span>
-              <span class="source">{{ hotTopics[newsIndex].source.name }}</span>
+        <a :href="hotTopics[newsIndex].url" target="_blank" rel="noopener noreferrer">
+          <div class="item">
+            <img
+              :src="
+                hotTopics[newsIndex].image
+                  ? hotTopics[newsIndex].image
+                  : 'https://via.placeholder.com/750?text=Image+Not+Found'
+              "
+              :alt="hotTopics[newsIndex].title"
+            />
+            <div class="text">
+              <p class="title">
+                {{ hotTopics[newsIndex].title }}
+              </p>
+              <div class="info">
+                <span class="publishedAt">{{
+                  hotTopics[newsIndex].publishedAt
+                }}</span>
+                <span class="source">{{ hotTopics[newsIndex].source.name }}</span>
+              </div>
+            </div>
+
+            <div v-if="!isMobile" class="description">
+              <p>
+                <!-- <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
+                adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
+                vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
+                magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
+                {{ clearText(hotTopics[newsIndex].content) }}
+              </p>
+              <a :href="hotTopics[newsIndex].url" target="_blank">Read more</a>
             </div>
           </div>
-
-          <div v-if="!isMobile" class="description">
-            <p>
-              <!-- <span>Nisi</span>, sagittis aliquet sit rutrum. Nunc, id vestibulum quam ornare
-              adipiscing. Pellentesque sed turpis nunc gravida pharetra, sit nec
-              vivamus pharetra. Velit, dui, egestas nisi, elementum mattis mauris,
-              magnis. Massa tortor nibh nulla condimentum imperdiet scelerisque... -->
-              {{ clearText(hotTopics[newsIndex].content) }}
-            </p>
-            <a :href="hotTopics[newsIndex].url" target="_blank">Read more</a>
-          </div>
-        </div>
+        </a>
       </div>
 
       <div class="latest">
